@@ -1,0 +1,116 @@
+<div id="task">
+    
+</div>
+
+<div id="container">
+    <div class="bit" onclick="flip(this)">0</div>
+    <div class="bit" onclick="flip(this)">0</div>
+    <div class="bit" onclick="flip(this)">0</div>
+    <div class="bit" onclick="flip(this)">0</div>
+    <div class="bit" onclick="flip(this)">0</div>
+    <div class="bit" onclick="flip(this)">0</div>
+    <div class="bit" onclick="flip(this)">0</div>
+    <div class="bit" onclick="flip(this)">0</div>
+</div>
+
+<script>
+    newtask()
+    function flip (e){
+        if(e.innerText == 0){
+            e.innerText = 1
+            e.style.background = 'rgb(222, 196, 32)'
+            e.style.color = 'rgb(118, 118, 255)'
+        } else {
+            e.innerText = 0
+            e.style.background = ''
+            e.style.color = ''
+        }
+        checkanswer()
+    }
+    function newtask(){
+        number = Math.floor(Math.random() * 256) // gets random number < 256 (0-255) 
+        document.querySelector("#task").innerText = number
+    }
+    function checkanswer(){
+        number = document.querySelector("#task").innerText
+        byte = Array.from(document.querySelector("#container").children).reverse()
+        multiplier=1
+        sum=0
+        byte.forEach(bit => {
+            sum += Number(bit.innerText)*multiplier
+            multiplier=multiplier*2
+        });
+        if (sum == number){
+            disappear()
+            setTimeout(()=>{
+                newtask()
+                wipe()
+                appear()
+            },1000)
+        }
+    }
+    function wipe(){
+        byte = Array.from(document.querySelector("#container").children)
+        byte.forEach(bit =>{
+            bit.innerText = 0
+            bit.style.background = ''
+            bit.style.color = ''
+        })
+    }
+    function disappear(){
+        body = document.querySelector("body")
+        body.style.transition =  '1s'
+        body.style.filter = 'opacity(0)'
+    }
+    function appear(){
+        body = document.querySelector("body")
+        body.style.filter = ''
+    }
+</script>
+
+<style>
+    html {margin:0}
+    body {
+        --bordercolour:rgb(26, 77, 179);
+        --backgroundcolour: rgb(118, 118, 255);
+        margin:0;
+        height:100vh;
+        display:flex;
+        gap:30px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: sans-serif;
+        font-size: 2.3em;
+        line-height: 1.0em;
+    }
+    #task {
+        border: solid var(--bordercolour) 3px;
+        border-radius:5px;
+        padding:10px;
+        color: var(--backgroundcolour);
+    }
+    #container {
+        display:flex;
+        border: solid var(--bordercolour) 5px;
+        background: var(--backgroundcolour);
+        border-radius:5px;
+        gap:15px;
+        padding:10px
+
+    }
+    .bit{
+        --bitcolour:rgb(222, 196, 32);
+        color:var(--bitcolour);
+        text-align:center;
+        border: solid var(--bitcolour) 3px;
+        padding: 30px;
+        border-radius:3px;    
+        user-select: none;
+    }
+    .bit:hover{
+        cursor:pointer;
+        color:white;
+        border-color: rgb(0,188,235)
+    }
+</style>
