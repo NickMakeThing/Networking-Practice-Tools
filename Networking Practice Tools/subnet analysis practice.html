@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+    <div class="container" id="options_container">
+        <!-- should probs make this absolute and put somewhere else -->
+        <span class="radio"> <input type="radio" name="network_type" value="CIDR" checked>CIDR</span>
+        <span class="radio"> <input type="radio" name="network_type" value="Classful">Classful</span>
+        <span class="radio"> <input type="radio" name="network_type" value="Random">Random</span>
+    </div>
+    <div class="container" id="network_container">
+        <div id="network_address"></div>
+        <div id="mask"></div>
+        
+    </div>
+    <div class="container" id="subnet_container">
+        <div id="subnet_mask">Subnet:</div>
+    </div>
+    <div class="container" id="answer_container">
+        <div class="answer" id="subnet_prefix">
+            <span>Subnet Prefix</span> <input/>
+        </div>
+        <div class="answer" id="first_address">
+            <span>First Addr</span> <input/>
+        </div>
+        <div class="answer" id="broadcast_address">
+            <span>Broadcast</span> <input/>
+        </div>
+        <div class="answer" id="hosts">
+            <span>Usable Addresses</span> <input/>
+        </div>
+        <div class="answer" id="subnets">
+            <span>Total Subnets</span> <input/>
+        </div>
+        <button id="Check" style="align-self:center;" onclick="on_submit()">Check</button>
+    </div>
+<script>
+    state = {
+        mask_length:0,
+        subnet_mask_length:0,
+        option: document.querySelector('input[name="network_type"]:checked').value,
+        correct: {}
+    }
+
+    function random(max){
+        return Math.floor(Math.random() * (max+1) )
+        //will return 0 to any positive number <= max
+    }
+    function get_classful_mask(ip){
+        first_octet = ip.split('.')[0]
+        if (first_octet < 127){
+            return 8
+        } else if (first_octet > 128 && first_octet < 192){
+            return 16
+        } else if (first_octet > 192 && first_octet < 224){
+            return 24
+        }
+    }
+    function random_address(){ 
+        ip = '127' 
+        while (ip == '127'){
+            ip = String(1 + random(223))
+        }
+        for(let i=0; i<3; i++){
+            ip += '.' + random(254)
+        }
+        if (state.option != 'CIDR'){
+            state.mask_length = get_classful_mask(ip)
+        }
+        return ip
+    }
+
+    function calculate_mask(prefix_length){
+        full_octets = Math.floor(prefix_length/8)
+        last_octet = 256 - 2**(8 - Math.abs(prefix_length - full_octets*8))
+
+        return '255.'.repeat(full_octets) + last_octet + '.0'.repeat(3-full_octets) 
+    }
+
+    function construct_network_mask(){
+        coin_flip = random(1)
+        network = document.querySelector('#network_container')
+        mask = document.querySelector('#mask')
+
+        if (coin_flip){ //randomly return either mask or prefix length
+            network.style.flexDirection = 'row' 
+            mask.style.alignSelf = ''
+            mask.style.fontSize = ''
+            return ' /'+state.mask_length
+        } else {
+            network.style.flexDirection = 'column' 
+            mask.style.alignSelf = 'center'
+            mask.style.fontSize = '0.9em'
+            return calculate_mask(state.mask_length)
+        }
+    }
+
+    function construct_subnet_mask(){
+        //highest prefix length possible: 30
+        /* 
+        gap_limit = 9 
+        //limits how much larger the subnet prefix length is. 
+        //avoids giga aids questions e.g., between /8 & /28
+        if (state.mask_length < 21){
+            prefix_length = state.mask_length + random(gap_limit)
+        } else {
+            
+        }
+        */
+        prefix_length = state.mask_length + random(30 - state.mask_length)
+        state.subnet_mask_length = prefix_length
+        coin_flip = random(1)
+
+        if(coin_flip){
+            return ' /'+prefix_length
+        } else {
+            console.log('debug, construct_subnet_mask(), prefix_length: '+prefix_length)
+            return ' '+calculate_mask(prefix_length)
+        }
+    }
+    //should be based off network
+    //do i still need this? seems like i gutted it for some reason and just left it here
+    function random_mask(subnet=false){//need to clean this up
+        var prefix_length
+        coin_flip = random(1)
+        if(subnet){
+            mask = document.querySelector('#mask').innerText()
+        } else {
+
+        }
+    }
+
+    //'network' as in the greater network that is being divided into subnets 
+    function random_network(){ 
+
+    }
+    function log2(x){
+        return Math.log(x)/Math.log(2)
+    }
+
+    function get_hosts(prefix_length){
+        return 2**(32-prefix_length) - 2
+    }
+    function get_prefix(){
+        //i_octet is octet where there are both 1s and 0s in the mask
+        //in other words, where the boundary between host and network bits is
+        prefix_length = state.subnet_mask_length      
+        ip = document.querySelector('#network_address').innerText.split('.')
+        i_octet = Math.floor(prefix_length/8)
+        size = 2**(8-prefix_length%8)
+        prefix_i_octet = Math.floor(ip[i_octet]/size)*size //prefix_i_octet is the number that is the prefix's i_octet
+        
+        if (!i_octet){//if it's 0
+            prefix = [prefix_i_octet]
+        } else {
+            prefix = [...ip.slice(0,i_octet), prefix_i_octet]
+        }
+        prefix = prefix.join('.') + '.0'.repeat(4-prefix.length)
+
+        return prefix
+    }
+
+    function get_subnets(CIDR=true){
+            //alternatively can do 2**(subnet_mask - mask)
+            mask_IPs = get_hosts(state.mask_length) + 2
+            subnet_mask_IPs = get_hosts(state.subnet_mask_length) + 2
+            return mask_IPs/subnet_mask_IPs
+    }
+
+    function get_first_address(){
+        ip_array = get_prefix().split('.')
+        first_three_octets = ip_array.slice(0,3)
+        last_octet = Number(ip_array[3]) + 1 
+        return [...first_three_octets, last_octet].join('.')
+    }
+    function get_broadcast_address(){
+        //alternative way to do this: find the 'interesting octet', make octets afterwards 255
+        ip_addresses = get_hosts(state.subnet_mask_length) + 1
+        subnet_id = get_prefix().split('.')
+        broadcast_addr = []
+
+        x = 3
+        subnet_id.forEach(octet => {
+            broadcast_octet = Number(octet) + Math.floor(ip_addresses/(256**x)%256)
+            broadcast_addr.push(broadcast_octet)
+            x -= 1
+        })
+        return broadcast_addr.join('.')
+    }
+    function disappear(){
+        body = document.querySelector("body")
+        body.style.transition =  '1s'
+        body.style.filter = 'opacity(0)'
+    }
+    function newtask(){
+        state.mask_length = 3 + random(27)
+        document.querySelector('#network_address').innerText = random_address()
+        document.querySelector('#subnet_mask').innerText = 'Subnet:' + construct_subnet_mask()
+        if (state.option == 'CIDR'){
+            document.querySelector('#mask').innerText = construct_network_mask()
+        }
+        state.correct = {
+            first_address:get_first_address(),
+            broadcast_address:get_broadcast_address(),
+            subnet_prefix:get_prefix(),
+            hosts:get_hosts(state.subnet_mask_length), //total usable host addresses in network 
+            subnets:get_subnets(),
+        }
+    }
+    function appear(){
+        body = document.querySelector("body")
+        body.style.filter = ''
+    }
+    function clear_inputs(){
+        document.querySelector('input[name="network_type"]:checked')
+        quiz = document.querySelectorAll('.answer')
+        quiz.forEach(question => {
+            question.children[1].value = ""
+        } )
+    }
+    function refresh(){
+        disappear()
+        setTimeout(()=>{
+            newtask()
+            clear_inputs()
+            appear()
+            console.log(state.correct)
+        },1000)
+        
+    }
+    function on_submit(){
+        quiz = document.querySelectorAll('.answer')
+        correct = true
+        //forEach was a bad decision. 'return' doesn't end on_submit, and 'break' doesn't work
+        //in future switch to for loop, or something else
+        quiz.forEach(question=>{
+            question_id = question.id.replace(' ','_')
+            answer = question.children[1].value
+
+            if (state.correct[question_id] != answer){
+                console.log('wrong answer')
+                correct = false
+            }
+        })
+        if (correct){
+            console.log('correct answer')
+            refresh()
+        }
+    }
+
+    clear_inputs()
+    newtask()
+    //should add in question: "is this public or private?"
+    //can get subnet ids in network_container
+    console.log(state.correct)
+
+
+</script>
+<style>
+    
+    body {
+        font-family: sans-serif;
+        font-size: 1.6em;
+        margin:0;
+        height:100vh;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap:25px;
+        /* colours */
+        --border_C:rgb(58,58,58);
+        --background_C:rgb(31,31,31);
+        --ip_C:rgb(206,145,120);
+        --mask_C:rgb(167,192,120);
+        --form_C:rgb(215,186,125);
+    }
+    .container{
+        background:var(--background_C);
+        border:3px solid var(--border_C);
+        border-radius:5px;
+    }
+    .radio input{
+        width:auto;
+    }
+    #options_container{
+        font-size: 0.7em;
+        background: white;
+        padding:5px;
+        padding-right:10px;
+    }
+    #network_container, #subnet_container{
+        display:flex;
+        gap:5px;
+        padding:15px;
+        /* padding-left: 10px; */
+        /* padding-right: 10px; */
+    }
+    #subnet_container{
+        font-size: 0.8em;
+    }
+    #answer_container{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        padding:21px;
+        padding-bottom: 15px;
+    }
+    .answer{ 
+        color:var(--form_C);
+        justify-items: end;
+        display:grid;
+        gap:10px;
+        grid-template-columns: 1fr 1fr;
+        font-size: 0.8em;
+    }
+    input{
+        width:120px;
+    }
+    span{
+        justify-self:start;
+    }
+    #network_address {
+        color:var(--ip_C);
+    }
+    #mask, #subnet_mask{
+        color:var(--mask_C);
+    }
+</style>
