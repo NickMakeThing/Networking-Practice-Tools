@@ -11,5 +11,7 @@ Scroll down for details of each
 <img src="https://github.com/NickMakeThing/Networking-Practice-Tools/blob/main/demo/binary.gif?raw=true" alt="binary.gif" width="800">
 
 ## Subnetting Practice Tool
+<img src="https://github.com/NickMakeThing/Networking-Practice-Tools/blob/main/demo/subnet.gif?raw=true" alt="subnet.gif" width="800">
 
 ## CCNA Quiz
+<img src="https://github.com/NickMakeThing/Networking-Practice-Tools/blob/main/demo/quiz.png?raw=true" alt="quiz.png" width="800">
