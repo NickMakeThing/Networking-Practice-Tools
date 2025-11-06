@@ -1,56 +1,9 @@
 #format is:   category = {answer: questions}
 
 questions_dict = {
-    'ACLs':{
-        frozenset({'1-99','1300-1999'}):['what ranges are standard ACLs? separate ranges with a comma'],
-        frozenset({'100-199','2000-2699'}):['what ranges are extended ACLs? separate ranges with a comma'],
-        #configuration
-        frozenset({'deny any'}):['what is implicitly at the end of every acl?'],
-        frozenset({'permit any'}):['what can be put at the end of an ACL to turn it from a whitelist into a blacklist?'],
-        # {'remark'}:['in place of \'permit\' or \'deny\', what key word can be used to leave a comment in an ACL?'],
-        frozenset({'access-list 1 permit 0.0.0.0 255.255.255.255'}):['what is a longer way of writing out a \'permit any\' ACE as part of standard ACL 1?'],
-        frozenset({'access-list 1 deny 1.2.96.0 0.0.7.255'}):['write a standard ACE for ACL 1 to deny packets from 1.2.96.0/21'],
-        frozenset({'ip access-list standard dogfood'}):['what command enters ACL config mode for a standard ACL named dogfood?'],
-        #intervals change on reload but maintain order of ACEs. 
-        #theres also a 'resequence' command that replaces the current intervals of an ACL
-        frozenset({'5 permit any'}):['what command in standard named ACL mode adds a \'permit any\' ACE with seq number 5?'],
-        frozenset({'permit host 1.2.3.4'}):['what command in standard named ACL mode adds an ACE at the end of the ACL that allows anything from 1.2.3.4?'],
-        frozenset({'access-class 5 in'}):['what command applies ACL 5 to vty clients in \'line vty\' mode?'],
-        frozenset({'ip access-group 5 in'}):['what interface command applies ACL 5 to incoming traffic?'],
-        frozenset({'10'}):['what is the default interval of each sequence number, if the seq number isn\'t explicitly entered?'],
-        frozenset({'no 30'}):['in named ACL mode, what command deletes an ACE that has seq number 30?'],
-        frozenset({'deny icmp any any'}):['in extended named ACL mode, write an ACE that denies all ping packets'],
-        frozenset({'access-list 104 deny ip host 192.168.1.69 172.168.3.64 0.0.0.63'}):['write an ACE that denies traffic from 192.168.1.69 to 172.168.3.64/26 for numbered ACL 104. \ndon\'t use a wc for the source address.'],
-        #tcp/udp gt,lt,list,range,eq & src port, dst ports
-        frozenset({'permit tcp host 1.2.3.4 eq 69 host 69.69.69.69 range 80 100'}):['in extended named ACL mode, write an ACE that permits traffic from tcp port 69 of 1.2.3.4 to all ports 80 to 100 of 69.69.69.69. \ndon\'t use wc masks.'],
-        frozenset({'deny udp 192.168.1.0 0.0.0.255 172.168.1.0 0.0.0.127 lt 80'}):['in extended named ACL mode, write an ACE that denies traffic from 192.168.1.0/24 to udp ports less than 80 of 172.168.1.0/25'],
-        frozenset({'access-list 104 permit tcp 1.2.3.4 0.0.0.0 gt 69 any'}):['write an ACE that permits traffic from tcp ports above 69 of 1.2.3.4 to any IP address as part of a numbered ACL 104. \nuse a wc for the source address.'],
-        #/32 ACEs
-        frozenset({'host'}):['what key word can precede an IP address in an ACE to match it as a /32 address?'],
-        frozenset({'0.0.0.0'}):['what wildcard mask can be used to match a /32 address?'],
-        frozenset({'ACL'}):['a numbered ACL has ace:\'access-list 1 deny 192.168.1.1\' what would entering this as a command with \'no\' prepended to it do? delete the ACE or entire ACL? \nanswer with either: ACE or ACL'],
-        frozenset({'32'}):['what prefix length will the device think an address in a standard ACL is if it\'s wc mask is left out?'],
-        #types
-        frozenset({'standard'}):[
-            'what type of ACL is typically used for VTY lines?',
-            'what type of ACL is placed closest to a packet\'s destination?',
-            ],
-        frozenset({'extended'}):[
-            'what type of ACL is placed closest to a packet\'s source?',
-            ],
-        #the ACEs/seq will be displayed out of order with this command, but you the displayed seq number help understand their order 
-        frozenset({'show access-lists'}):['what command shows information about each ACL, It\'s type, and each ACE/seq number? '],
-        #notable cases, e.g., allowing ospf, dhcp and ip helper
-        frozenset({'generated'}):['what kind of packets are not filtered by outbound ACLs?'],
-        # frozenset({'inbound'}):['which way should an ACL be placed to allow OSPF to operate'], #what did i mean by this
-        frozenset({'permit ospf any any'}):['write a named-acl ACE that allows for OSPF to operate'],
-        frozenset({'68/67'}):['what is the src/dst port of a dhcp request coming from a dhcp client to a relay agent/gateway? give numbers in this form: src/dst'],
-        frozenset({'67/67'}):['what is the src/dst port of a dhcp request coming from a dhcp relay to a dhcp server? give numbers in this form: src/dst'],
-    },
     'low_layer':{
         frozenset({'show interfaces status'}):['command that shows each port\'s duplex, speed(s), access vlan, L1 connection status'], #doesnt work in PT
         frozenset({'show interfaces f0/1'}):['what command provides L1/L2 error counters for interface f0/1?'],
-        #what command shows the stats below?
         frozenset({'64'}):['what is the default minimum frame size in bytes?'],
         frozenset({'1518'}):['what is the default maximum frame size in bytes?'],
         frozenset({'runts'}):['counts frames that are smaller than the minimum frame size?'],
@@ -64,15 +17,13 @@ questions_dict = {
         frozenset({'duplex mismatch'}):['what is a common cause of the \'late collisions\' counter going up?'],
         #(runts, CRC, frame) can all be caused by collisions
         frozenset({'line/protocol'}):['what statuses does up/up tell us about? answer with the form: answer1/answer2'],
-        #if 
         frozenset({'100mbps'}):['if one side of a link sends with 100mbps full duplex, but isn\'t negotiating, what SPEED does the negotiating side use?'],
         frozenset({'10mbps'}):['if one side of a link is not negotiating, AND the other side (10/100/1000) cannot sense the speed, what SPEED does the negotiating side use?'],
         frozenset({'half'}):['if one side of a link sends with 100mbps full duplex, but isn\'t negotiating, what DUPLEX does the negotiating side use?'],
         frozenset({'full'}):['if one side of a link sends with 1gbps full duplex, but isn\'t negotiating, what DUPLEX does the negotiating side use?'],
-},
+    },
     'syslog':{ 
         #Every Awesome Cisco Engineer Will Need Icecream Daily (EACEWNID) neumonic for remembering severity names
-        #should add some commands
         frozenset({'Every Awesome Cisco Engineer Will Need Icecream Daily'}):['what mnemonic helps remember the severity levels?'],
         frozenset({'5'}):['what is the severity in:\n21:48:21: %OSPF-5-ADJCHG: Process 1, Nbr 3.3.3.3 on GigabitEthernet0/1 from FULL to DOWN, Neighbor Down: Dead timer expired'],
         frozenset({'OSPF'}):['what is the facility in:\n21:48:21: %OSPF-5-ADJCHG: Process 1, Nbr 3.3.3.3 on GigabitEthernet0/1 from FULL to DOWN, Neighbor Down: Dead timer expired'],
@@ -97,15 +48,10 @@ questions_dict = {
         #debug command will output messages of specific 'facilities', e.g., ospf, etc
         #debug command output does not list severity level
         #does the 'debug' command print all messages under 7 like the 'logging' command would?
-
-        #'terminal monitor' has to be done by the user during the vty session, and i think it has to be done every time
-
-},
-
+        #'terminal monitor' has to be done by the user during the vty session
+    },
     'automation':{
-
         #'configuration drift'?
-
         #ansible
         frozenset({'ansible','puppet','chef'}):['name the three typical configuration management platforms'],
         frozenset({'ssh'}):['what does ansible use to automatically connect to devices, update configurations, get information, etc?'],
@@ -127,11 +73,9 @@ questions_dict = {
         #both
         frozenset({'terraform'}):['is ansible or terraform better for spinning up/tearing down virtual instances and infrastructure?'],
         frozenset({'ansible'}):['is ansible or terraform better for on-going management of existing or persistent infrastructure?'],
-
-
     },
     'DNS':{
-        #theres also the ip domain list command, which i really doubt will be on the CCNA exam
+        #theres also the ip domain list command
         frozenset({'ip host example.com 1.2.3.4'}):['what command creates a dns entry to translate example.com to 1.2.3.4 for clients or commands?'],
         frozenset({'ip name-server 1.1.1.1'}):['what command sets 1.1.1.1 as a dns server address to query for itself or on behalf of DNS clients?'],
         frozenset({'ip dns server'}):['what command turns a device into a dns server?'],
@@ -140,7 +84,7 @@ questions_dict = {
         frozenset({'nslookup youtube.com'}):['on most OS\'s, what command will do a DNS query for youtube.com?'],
         frozenset({'A'}):['what kind of DNS record gives an IPv4 address?'],
         frozenset({'AAAA'}):['what kind of DNS record gives an IPv6 address?'],
-        #there are also CNAME records
+        #also CNAME 
     },
     'files':{
         #TFTP/FTP
@@ -155,7 +99,7 @@ questions_dict = {
         frozenset({'copy ftp: flash:'}):['what command begins the prompts to download a file to flash storage?'],
         frozenset({'boot system flash:imagename.bin'}):['once a new IOS image has been downloaded as imagename.bin into flash, what command configures the device to use it?'],
         frozenset({'write memory'}):['what command should be used to ensure the \'boot system\' command is saved and takes effect after reload?']
-},
+    },
 
     'ospf':{
         frozenset({'RID','subnet','cost'}):['an LSA contains what information? separate each with a comma.'],
@@ -179,7 +123,7 @@ questions_dict = {
         frozenset({'clear ip ospf process'}):['what command is used after setting a new router ID to start using it?'],
         frozenset({'ASBR'}):['what kind of ospf router does a router become after the \'default-information originate\' is entered?'],
         #{'router id','loopback','interface'}:['list the three things that are used to select a router ID.'],
-        #router id selection order. i think its: #manually set RID -> highest lo address -> highest interface address 
+        #router id selection order. #manually set RID -> highest lo address -> highest interface address 
         #br,bdr election
         #p2p network details
         #equal cost load balancing
@@ -238,20 +182,17 @@ questions_dict = {
         frozenset({'router id'}):['what ospf detail will cause neighbor formation to fail when not unique on each device?'],
         frozenset({'interface'}):['if ospf network and interface commands (to advertise a subnet) are configured and conflict with each other, (e.g. they use different area IDs) which will take override the other? answer \'interface\' or \'network\''],
         frozenset({'0'}):['on a \'broadcast\' network, there should be at least one router that doesnt have a priority of - what?'],
-        #how to display hello/dead intervals?
         #LSA types 
         frozenset({'type 1'}):['which type of LSA lists details of an individual router? (RID, neighbors, interfaces/their state, ip address/masks)'],
         frozenset({'type 2'}):['which type of LSA is only generated by DRs of broadcast networks that have more than 2 routers?'],
         frozenset({'type 3'}):['which type of LSA is generated by ABRs and provides a summary information to another OSPF area?'],
-            #i think type 3s do not necessarily send route summaries #https://learningnetwork.cisco.com/s/question/0D53i00000Kt7fvCAB/ospf-summarylsa-type-3 #https://networklessons.com/ospf/ospf-lsa-types-explained
+            # type 3s do not necessarily send route summaries #https://learningnetwork.cisco.com/s/question/0D53i00000Kt7fvCAB/ospf-summarylsa-type-3 #https://networklessons.com/ospf/ospf-lsa-types-explained
         frozenset({'type 5'}):['what type of LSA is generated by ASBRs to describe routes outside of the OSPF domain? (AKA AS)'], #jeremy IT labs mentions type 5 instead of type 3, and OCG does the opposite
         #show ip ospf database [summary]
-},
+    },
     'etherchannel':{
         #show commands & legend
-        #
         frozenset({'3'}):['what will be the 1998 stp cost of a LAG that provides 2 to 8 gbps total?'],
-        #the long cost of an 2 to 8 gbps would be something like 20,000,000,000/(gbps * 1000*1000) since calculation is done in kbps
         frozenset({'show etherchannel summary'}):['what command shows information about port channels?'],
         frozenset({'P'}):['what etherchannel summary letter means the portchannel is bundled and working'],
         frozenset({'U'}):['what etherchannel summary letter means the portchannel is in use and working'],
@@ -269,8 +210,7 @@ questions_dict = {
         frozenset({'channel-group 71 mode desirable'}):['what command configures a range of interfaces to initiate PAgP as channel-group 71?'],
         frozenset({'channel-group 71 mode auto'}):['what command configures a range of interfaces to listen for PAgP initiation as channel-group 71?'],
         frozenset({'no switchport'}):['what interface command on a portchannel turns it into a L3 portchannel?'],
-        #can we configure portchannel int as trunk/access, etc while it's down?
-},
+    },
     'ssh':{
         frozenset({'ip domain-name example.com'}):['what command sets the domain name example.com? (to later generate a key)'],
         frozenset({'hostname R1'}):['what command sets the host name R1? (to later generate a key)'],
@@ -284,7 +224,7 @@ questions_dict = {
         frozenset({'standard'}):['what type of access list is typically applied to vty lines?'],
         #should make question addressing can't use 'login' configuration for ssh, only 'login local' and some other stuff works
         frozenset({'login local'}):['what command enables authentication on vty lines that uses locally defined usernames/passwords?'],
-        #not sure if its exec timeout or session timeout that resets its timer when users do something
+        #exec timeout vs session timeout
         frozenset({'exec-timeout 5 30'}):['what command configures the vty line to automatically close after 5 minutes and 30 seconds of the user not doing anything?'],
         frozenset({'username bob password toast69'}):['what command creates a username \'bob\' with password \'toast69\'?'],
         frozenset({'transport input none'}):['what command disables vty lines?'],
@@ -293,7 +233,7 @@ questions_dict = {
         frozenset({'ip default-gateway 1.2.3.4'}):['a switch is on a lan that has a default gateway 1.2.3.4. what command is entered to ensure that the switch can respond & connect to ssh clients outside of the switch\'s lan?'],
         frozenset({'svi'}):['what should be configured on a switch to give it an ip address so clients may ssh into it?']
     #ssh bob@1.2.3.4    #ssh -l bob 1.2.3.4
-},
+    },
     'vlans':{
             #TODO below
         # """
@@ -301,7 +241,8 @@ questions_dict = {
         # different routing capabilities vary between L3 switch models .
         #         ocg recommends viewing https://www.cisco.com/go/cfn to see differences
         # """
-        #trunk security best practices? disable vlan 1, make native random unused vlan,
+        #trunk security best practices
+        # disable vlan 1, make native random unused vlan,
         #DTP apparently no longer in the exam
         # {'access'}:['what does the link become when DTP configurations are auto+auto?'],
         # {'access'}:['what does the link become when DTP configurations are auto+access?'],
@@ -333,14 +274,12 @@ questions_dict = {
         frozenset({'switchport trunk encapsulation dot1q'}):['what command sets the trunking protocol to dot1q?'],
         frozenset({'switchport mode dynamic desirable'}):['what command configures a port to initiate DTP messages to try and form a trunk?'],
         frozenset({'switchport trunk allowed 10,20,30'}):['what command allows vlans 10,20, and 30 onto the trunk?'],
-        #^this question has some odd bug, where the correct answer doesn't register as correct
         # {'switchport trunk allowed add 40'}:['what command adds vlan 40 to a trunk\'s already existing allow list?'],
         # {'switchport trunk allowed remove 40'}:['what command removes vlan 40 from a trunk\'s allow list?'],
         frozenset({'switchport trunk allowed 3-7'}):['what command allows all vlans between 3 and 7 onto the trunk?'],
         frozenset({'switchport nonegotiate'}):['what command stops a port from partaking in DTP completely, such that it does not even send/process DTP frames?'],
         frozenset({'switchport trunk native 123'}):['what command sets the trunk\'s native vlan to 123?'],
         frozenset({'no'}):['should the native vlan be included in the \'allowed vlan\' command? (yes/no)'],
-        #difference between this^ and just setting as trunk/access?
         #vlan names
         frozenset({'VLAN0069'}):['what is the default name for vlan 69 after creation?'],
         frozenset({'name HORSE'}):['after entering vlan config mode, what command changes the name to \'HORSE\'?'],
@@ -358,7 +297,6 @@ questions_dict = {
         frozenset({'sub interface','physical port'}):['what are two ways to handle native vlan on the router\' end of a ROAS link? separate answers with a comma'],
         frozenset({'encapsulation dot1q native'}):['what command is used to configure native vlan on a sub interface?'],
         frozenset({'ip address'}):['what needs to be configured on the physical interface so it\'s used for the native vlan?'],
-        #^need to revise how each of these two are configured
         frozenset({'int g0/0.10'}):['what command is used to enter interface command mode sub interface on g0/0 that is suitable for vlan 10?'],
         frozenset({'encapsulation dot1q 10'}):['what sub-interface command sets the vlan of the frames it should handle to vlan 10?'],
         frozenset({'ip address 1.2.3.1 255.255.255.0'}):['what command sets an ip address on the sub-interface to 1.2.3.1/24?'],
@@ -374,7 +312,7 @@ questions_dict = {
         frozenset({'no switchport'}):['what command is used on an interface to turn it into a routed port?'],
         #router switchport module
         frozenset({'SVI'}):['what is created/used to configure intervlan routing on a switchport module of a router?']
-},
+    },
     'ACLs':{
         frozenset({'1-99','1300-1999'}):['what ranges are standard ACLs? separate ranges with a comma'],
         frozenset({'100-199','2000-2699'}):['what ranges are extended ACLs? separate ranges with a comma'],
@@ -398,7 +336,7 @@ questions_dict = {
         #tcp/udp gt,lt,list,range,eq & src port, dst ports
         frozenset({'permit tcp host 1.2.3.4 eq 69 host 69.69.69.69 range 80 100'}):['in extended named ACL mode, write an ACE that permits traffic from tcp port 69 of 1.2.3.4 to all ports 80 to 100 of 69.69.69.69. \ndon\'t use wc masks.'],
         frozenset({'deny udp 192.168.1.0 0.0.0.255 172.168.1.0 0.0.0.127 lt 80'}):['in extended named ACL mode, write an ACE that denies traffic from 192.168.1.0/24 to udp ports less than 80 of 172.168.1.0/25'],
-        frozenset({'access-list 104 permit tcp 1.2.3.4 0.0.0.0 gt 69 any'}):['write an ACE that permits traffic from tcp ports above 69 of 1.2.3.4 to any IP address as part of a  numbered ACL 104. \nuse a wc for the source address.'],
+        frozenset({'access-list 104 permit tcp 1.2.3.4 0.0.0.0 gt 69 any'}):['write an ACE that permits traffic from tcp ports above 69 of 1.2.3.4 to any IP address as part of a numbered ACL 104. \nuse a wc for the source address.'],
         #/32 ACEs
         frozenset({'host'}):['what key word can precede an IP address in an ACE to match it as a /32 address?'],
         frozenset({'0.0.0.0'}):['what wildcard mask can be used to match a /32 address?'],
@@ -416,11 +354,11 @@ questions_dict = {
         frozenset({'show access-lists'}):['what command shows information about each ACL, It\'s type, and each ACE/seq number? '],
         #notable cases, e.g., allowing ospf, dhcp and ip helper
         frozenset({'generated'}):['what kind of packets are not filtered by outbound ACLs?'],
-        # frozenset({'inbound'}):['which way should an ACL be placed to allow OSPF to operate'], #what did i mean by this
+        # frozenset({'inbound'}):['which way should an ACL be placed to allow OSPF to operate'], #what did i mean by this?
         frozenset({'permit ospf any any'}):['write a named-acl ACE that allows for OSPF to operate'],
         frozenset({'68/67'}):['what is the src/dst port of a dhcp request coming from a dhcp client to a relay agent/gateway? give numbers in this form: src/dst'],
         frozenset({'67/67'}):['what is the src/dst port of a dhcp request coming from a dhcp relay to a dhcp server? give numbers in this form: src/dst'],
-},
+    },
     'stp':{
         #states
         frozenset({'listening','learning','forwarding','blocking','disabled'}):['what are the classic STP port STATEs? separate answers with comma.'],
@@ -458,16 +396,12 @@ questions_dict = {
         frozenset({'shared'}):['what RSTP link type connects to a hub?'],
         #cost
 
-        #cost upstream switch sends its path cost to root down to the next downstream switch
+        #upstream switch sends its path cost to root down to the next downstream switch
         #the next downstream switch adds the cost of the interface receiving this message, and passes it on
         #process repeats and cost of each ingress port is accumulated down the path
         #this makes sense in classic STP, but what about RSTP where BPDUs are sent both ways?  
 
         frozenset({'designated'}):['in classic STP, which is the only type of port that BPDUs are sent out of'],
-
-        #i think in classic STP every switch just forwards the root bridge's bpdus after convering
-        #in rstp etc:
-
         #optional features
         frozenset({'portfast'}):['what optional feature skips listening and learning states, and is placed on edge ports (to endpoints)?','what feature makes a port an \'edge port\' in RSTP?'],
         frozenset({'trunk'}):['on what kind of ports will portfast not work on?'],
@@ -480,7 +414,7 @@ questions_dict = {
         frozenset({'loopguard'}):['what feature prevents ports from becoming designated ports, disabling them instead?'], #e.g., if something happens to a wire one way so that a port stops receiving bpdus
         #root/loop guard put ports in [root/loop]-inconsistent state
         # {'root-inconsistent'}:['what kind of port state does rootguard put ports into as a result of a violation?'],
-},
+    },
     'stp_cost':{
         frozenset({'20000000'}):['what number is divided by n*mbps to get the corresponding *2004* STP cost?'],
         frozenset({'20000'}):['what number is divided by n*gbps to get the corresponding *2004* STP cost?'],
@@ -548,8 +482,6 @@ questions_dict = {
         frozenset({"video"}):['one-way delay: 200-400ms,\njitter: 30-50ms,\nloss: 0.1-1%'],
         frozenset({"tail drop"}):['what is it called when packets at the back of a queue are dropped as a consequence of it being full. default congestion management behavior'],
         frozenset({"fifo"}):['by default, in what manner are messages queued & forwarded?'],
-        #"wred":['above a threshold of congestion (queue fullness), randomly select packets to drop as opposed to "tail drop". different classes of packets have different probabilities of being dropped'],
-        #actually not sure how wred works - do the classifications make certain packets have a higher chance of being dropped, or do they make it so only lower priority or both lower & higher packets are randomly dropped - depending on the congestion threshold reached?
         frozenset({"classification"}):['identify and categorize traffic in order to perform particular actions on it, or so it can be marked for another device to perform those actions'],
         frozenset({"marking"}):['modify headers as a result of classification, so upstream devices expend less cpu to determine QoS actions'],
         frozenset({'queuing'}):['placing received packets in a buffer before sending. the buffer follows FIFO logic by default.'],
@@ -560,7 +492,6 @@ questions_dict = {
         #CBWFQ are bad for low jitter/delay traffic. LLQs solve this problem. they can be used at the same time: 3 CBWFQ qs and 1 LLQ. 
         #during times of no congestion, CBWFQ apparently does nothing https://community.cisco.com/t5/switching/cbwfq-in-non-congestion-network/td-p/3022303
         frozenset({'LLQ'}):['a queue that is always sent from first. used for low latency traffic like voice. called "strict priority queue" '],
-        #difference between queuing and scheduling?
         frozenset({'congestion'}):['when queues become full'],
         frozenset({'policing'}):['drops packets when traffic rate gets too high. can be configured to mark packets instead. prevent LLQs from starving other queues. limits customer\'s bandwidth'],
         frozenset({'shaping'}):['buffers & delays packets when the traffic rate gets too high. used by customers'],
@@ -574,38 +505,38 @@ questions_dict = {
         frozenset({'Assured Forwarding'}):['A range of DSCP values: xxxyy0 which determine class (x) and drop presendence (y)'],
         frozenset({'Class Selector'}):['DSCP values: xxx000. enable backward compatibility with IPP'],
         frozenset({'trust boundary'}):['a place on the network that figuratively separates from which devices DSCP markings will be trusted, and which will be replaced/untrusted.']
-},
+    },
     'ports':{
-    frozenset({"tcp 20"}):['ftp data'],
-    frozenset({"tcp 21"}):['ftp control'],
-    frozenset({"tcp 22"}):['ssh'],
-    frozenset({"tcp 23"}):['telnet'],
-    frozenset({"tcp 25"}):['smtp'],
-    frozenset({"udp tcp 53"}):['dns'],
-    frozenset({"udp 67"}):['dhcp server'],
-    frozenset({"udp 68"}):['dhcp client'],
-    frozenset({"udp 69"}):['tftp'],
-    frozenset({"tcp 110"}):['pop3'],
-    frozenset({"udp 123"}):['ntp'],
-    frozenset({"udp 161"}):['snmp'],
-    frozenset({"udp 514"}):['syslog'],
-    frozenset({'udp 49'}):['tacacs+'],
-    frozenset({'udp 1812'}):['radius authentication'],
-    frozenset({'udp 1813'}):['radius accounting']
-},
+        frozenset({"tcp 20"}):['ftp data'],
+        frozenset({"tcp 21"}):['ftp control'],
+        frozenset({"tcp 22"}):['ssh'],
+        frozenset({"tcp 23"}):['telnet'],
+        frozenset({"tcp 25"}):['smtp'],
+        frozenset({"udp tcp 53"}):['dns'],
+        frozenset({"udp 67"}):['dhcp server'],
+        frozenset({"udp 68"}):['dhcp client'],
+        frozenset({"udp 69"}):['tftp'],
+        frozenset({"tcp 110"}):['pop3'],
+        frozenset({"udp 123"}):['ntp'],
+        frozenset({"udp 161"}):['snmp'],
+        frozenset({"udp 514"}):['syslog'],
+        frozenset({'udp 49'}):['tacacs+'],
+        frozenset({'udp 1812'}):['radius authentication'],
+        frozenset({'udp 1813'}):['radius accounting']
+    },
     'routing_AD':{          
-    frozenset({'Connected'}): [0],       
-    frozenset({'Static'}): [1],                             
-    frozenset({'eBGP'}): [20],                
-    frozenset({'EIGRP'}): [90],                 
-    frozenset({'OSPF'}): [110],                
-    frozenset({'IS-IS'}): [115],                 
-    frozenset({'RIP'}): [120],               
-    frozenset({'external EIGRP'}): [170],                          
-    frozenset({'iBGP'}): [200],                
-    frozenset({'DHCP'}): [254],                
-    frozenset({'unroutable'}): [255],                    
-},
+        frozenset({'Connected'}): [0],       
+        frozenset({'Static'}): [1],                             
+        frozenset({'eBGP'}): [20],                
+        frozenset({'EIGRP'}): [90],                 
+        frozenset({'OSPF'}): [110],                
+        frozenset({'IS-IS'}): [115],                 
+        frozenset({'RIP'}): [120],               
+        frozenset({'external EIGRP'}): [170],                          
+        frozenset({'iBGP'}): [200],                
+        frozenset({'DHCP'}): [254],                
+        frozenset({'unroutable'}): [255],                    
+    },
     'wan':{
         frozenset({'hub and spoke'}):['what WAN architecture has all other edge routers connect to a central router, but not each other?'],
         frozenset({'MPLS'}):['what technology is used by SPs to isolate customer traffic, and forwards/routes using labels instead of IP addresses?'],
@@ -632,40 +563,39 @@ questions_dict = {
         # 'dual homed ' : [''], 
         # 'multi homed' : [''], 
         # 'dual multihomed' : [''], 
-
-            #there are e-line, e-lan, e-tree, wireless WAN (4,5,6g, etc) topics in the OCG, but seems like these arent on the exam
-},
+        #there are e-line, e-lan, e-tree, wireless WAN (4,5,6g, etc) topics in the OCG, but seems like these arent on the exam
+    },
     'wireless':{
-    #WPA1,2,3 details, CCMP & GCMP
-    frozenset({'split-mac'}):['architecture that involves multiple LAPs controlled by a WLC'],
-    frozenset({'autonomous'}):['___ AP that operates in a standalone/independent manner','what kind of mode do Meraki APs typically use (surprisingly)'],
-    frozenset({'cloud'}):['what type of architecture does Meraki fit into?', 'what deployment model is a centralized model, but specifically leverages cloud?'],
-    frozenset({'centralized'}):['what deployment model places a wlc in a central, likely remote, location to support a large number of APs/clients?'],
-    frozenset({'distributed'}):['what deployment model distributes multiple WLCs across a campus in places down stream from a central-ish location?'],
-    frozenset({'embedded'}):['what deployment model has WLC software run on non-dedicated WLC hardware? e.g., wlc running on a switch'],
-    frozenset({'mobility express'}):['what is cisco\'s feature that enables WLCs to be embedded on on LAPs?'],
-    #modes 
-    frozenset({'Local'}):['Default mode for a LAP that provides a BSS, sends client data to WLC and other info regarding rogue devices, noise/interference, stuff for WIDS'],
-    frozenset({'Monitor'}):['mode where the AP only listens. captures frames to check for IDS events, detects rogue APs, something about ...  detecting stations through location based sevices ¯\\_(ツ)_/¯'],
-    frozenset({'FlexConnect'}):['mode where an AP can forward traffic on its local network without CAPWAP trip while still being controlled remotely. Can act autonomously when losing connection with WLC.'],
-    frozenset({'Sniffer'}):['mode where an AP captures 802.11 traffic to send to a an analyzer (e.g., wireshark)'],
-        #note:jeremy'sITlab says rogue detector listen only to wired, OCG says it listens to both wired and wireless 
-    frozenset({'Rogue detector'}):['mode that listens to the wired network for mac addresses. makes correlations to detect rogue APs'],
-    frozenset({'Bridge'}):['mode that connects different networks wirelessly. e.g., 2 APs connect to each other.'],
-    frozenset({'SE-Connect'}):['mode that listens to RF data and sends it to a spectrem analyzer'],
-    #security
-    frozenset({'open authentication'}):['what \'authentication\' method allows user to connect to the BSS unconditionally? used today with login portal behind it, but no encryption'],
-    frozenset({'WEP'}):['what wireless encryption/authentication method is insecure/old, used a shared key, and leveraged RC4?'],
-    frozenset({'EAP'}):['an authentication \'framework\' that supports multiple different authentication methods'],
-    frozenset({'802.1x'}):['basically just EAP over LAN (EAPoL)'],
-    frozenset({'TKIP'}):['an enhancement to WEP intended as a temporary solution until an improvement over WEP was developed/ratified.'],
-    frozenset({'CCMP'}):['a wifi security protocol that uses AES counter mode & CBC-MAC'],
-    frozenset({'GCMP'}):['WPA3\'s wifi security protocol that uses AES counter mode & GMAC'],
-    frozenset({'PMF'}):['prevents abuse of management frames. optional in WPA2, mandatory in WPA3.'],
-    frozenset({'SAE'}):['added security for PSK in WPA3. protects the 4way handshake.'],
-    frozenset({'forward secrecy'}):['past messages that have been captured cannot be practically decrypted by unauthorized entity'],
-    frozenset({'option 43'}):['configuration on a dhcp server that tells access points the IP of their controller'],
-},
+        #WPA1,2,3 details, CCMP & GCMP
+        frozenset({'split-mac'}):['architecture that involves multiple LAPs controlled by a WLC'],
+        frozenset({'autonomous'}):['___ AP that operates in a standalone/independent manner','what kind of mode do Meraki APs typically use (surprisingly)'],
+        frozenset({'cloud'}):['what type of architecture does Meraki fit into?', 'what deployment model is a centralized model, but specifically leverages cloud?'],
+        frozenset({'centralized'}):['what deployment model places a wlc in a central, likely remote, location to support a large number of APs/clients?'],
+        frozenset({'distributed'}):['what deployment model distributes multiple WLCs across a campus in places down stream from a central-ish location?'],
+        frozenset({'embedded'}):['what deployment model has WLC software run on non-dedicated WLC hardware? e.g., wlc running on a switch'],
+        frozenset({'mobility express'}):['what is cisco\'s feature that enables WLCs to be embedded on on LAPs?'],
+        #modes 
+        frozenset({'Local'}):['Default mode for a LAP that provides a BSS, sends client data to WLC and other info regarding rogue devices, noise/interference, stuff for WIDS'],
+        frozenset({'Monitor'}):['mode where the AP only listens. captures frames to check for IDS events, detects rogue APs, something about ...  detecting stations through location based sevices ¯\\_(ツ)_/¯'],
+        frozenset({'FlexConnect'}):['mode where an AP can forward traffic on its local network without CAPWAP trip while still being controlled remotely. Can act autonomously when losing connection with WLC.'],
+        frozenset({'Sniffer'}):['mode where an AP captures 802.11 traffic to send to a an analyzer (e.g., wireshark)'],
+            #note:jeremy'sITlab says rogue detector listen only to wired, OCG says it listens to both wired and wireless 
+        frozenset({'Rogue detector'}):['mode that listens to the wired network for mac addresses. makes correlations to detect rogue APs'],
+        frozenset({'Bridge'}):['mode that connects different networks wirelessly. e.g., 2 APs connect to each other.'],
+        frozenset({'SE-Connect'}):['mode that listens to RF data and sends it to a spectrem analyzer'],
+        #security
+        frozenset({'open authentication'}):['what \'authentication\' method allows user to connect to the BSS unconditionally? used today with login portal behind it, but no encryption'],
+        frozenset({'WEP'}):['what wireless encryption/authentication method is insecure/old, used a shared key, and leveraged RC4?'],
+        frozenset({'EAP'}):['an authentication \'framework\' that supports multiple different authentication methods'],
+        frozenset({'802.1x'}):['basically just EAP over LAN (EAPoL)'],
+        frozenset({'TKIP'}):['an enhancement to WEP intended as a temporary solution until an improvement over WEP was developed/ratified.'],
+        frozenset({'CCMP'}):['a wifi security protocol that uses AES counter mode & CBC-MAC'],
+        frozenset({'GCMP'}):['WPA3\'s wifi security protocol that uses AES counter mode & GMAC'],
+        frozenset({'PMF'}):['prevents abuse of management frames. optional in WPA2, mandatory in WPA3.'],
+        frozenset({'SAE'}):['added security for PSK in WPA3. protects the 4way handshake.'],
+        frozenset({'forward secrecy'}):['past messages that have been captured cannot be practically decrypted by unauthorized entity'],
+        frozenset({'option 43'}):['configuration on a dhcp server that tells access points the IP of their controller'],
+    },
     'security':{
         #dhcp snooping 
         frozenset({'option 82'}):['what feature interferes with dhcp when the dhcp snooping switch isn\'t also a relay agent?'],
@@ -712,83 +642,73 @@ questions_dict = {
         frozenset({'300'}):['what is the default err-disable recovery time?'],
         frozenset({'errdisable recovery interval 100'}):['what command adjusts err-disable recovery time to 100 seconds?'],
         #can verify with 'show errdisable'
-},
+    },
     'ipv6':{
-    #NEED TO DO :'solicited node multicast':[''],
-
-    #other things besides quiz to strengthen ipv6 skills:
-    #hex conversion, shortening/expanding addresses, subnetting (what about it though?)
-    #interface command: ipv6 enable - generates link local address on interface, but does it do anything else?
-    #solicited node address generation https://youtu.be/rwkHfsWQwy8?si=vb7WdkVrUlU6ndP-&t=594
-
-    #link-local refers to the broadcast domain, not just the single physical link 
-    #address ranges
-    #https://www.youtube.com/watch?v=hJ7Mc3LLWXI
-    frozenset({'solicited node multicast'}):['what kind of address is used to request/discover a mac address associated with an ipv6 address?'],
-    frozenset({'unique local'}):['what kind of address starts with numbers in the range of FC-FD?', 'what is the ipv6 name for private addresses?'],  
-    frozenset({'FD'}):['due to some odd rules, what should the first 2 characters of ULA addresses be *in practice*'],  
-    frozenset({'link local'}):['which kind of address starts with FE80?'], 
-    frozenset({'multicast'}):['which kind of ipv6 address begins with FF'],
-    frozenset({'loop back'}):['what kind of address is ::1'],
-    #multicast ranges ?
-    frozenset({'interface-local'}):['what is the scope of FF01 addresses?'],
-    frozenset({'link-local'}):['what is the scope of FF02 addresses?'],
-    frozenset({'ipv6 address fe80::69 link-local'}):['what command configures a specific link local address: fe80::69'],
-    
-    frozenset({'FF02::1:ffb4:5b6d'}):['what solicited node multicast address will be created if an interface has this address 2001:db8::a1c2:d3b4:5b6d/64'],
-    frozenset({'MDN snooping'}):['what do switches need to have enabled to prevent multicast\'s from be flooded out every port?'],
-    frozenset({'FF02::1:FF'}):['what part of solicited multicast addresses is the same in every one?'],
-    frozenset({'ipv6 enable'}):['what command automatically generates/assigns a link local address on an interface?'],
-    #FF02::1:FFxx:xxxx
-    #FF02::1 is very different from FF02::1:FF 
-    #!!!what is the usecase of solicited nodemulticast? apparently its for when a computer doesn't know it's default gateways mac address.
-    frozenset({'FF02::1'}):['what is the \'all nodes\' ipv6 multicast address?'],
-    frozenset({'FF02::2'}):['what is the \'all routers\' ipv6 multicast address?'],
-    frozenset({'FF02::5'}):['what is the all OSPF routers ipv6 multicast address?'],
-    frozenset({'FF02::6'}):['what is the all OSPF BRs/BDRs ipv6 multicast address?'],
-    frozenset({'site-local'}):['what is the scope of FF05 addresses?'],
-    frozenset({'organization-local'}):['what is the scope of FF08 addresses?'],
-    frozenset({'global'}):['what is the scope of FF0E addresses?'],
-    frozenset({'global unicast'}):['what kind of ipv6 address starts with 2 or 3 and is in the range of 2000::/3?', 'what is the ipv6 name for public addresses?'],
-    frozenset({'anycast'}):['what kind of ipv6 address is one-to-nearest?'],
-    frozenset({'::/0'}):['what ipv6 address is used in default routes in place of 0.0.0.0?'],
-    #ndp
-    frozenset({'ndp'}):['what is used in place of arp for IPv6?'],
-    frozenset({'neighbor solicitation'}):['what is the ipv6 equivalent of an arp request? (to learn mac:ip map)'],
-    frozenset({'neighbor advertisement'}):['what is the ipv6 equivalent of an arp reply? (to provide mac:ip map)'],
-    frozenset({'show ipv6 neighbor'}):["what command shows ipv6 to mac mappings"],
-    frozenset({'router solicitation'}):['what type of message uses FF02::2 to discover local routers?'],
-    frozenset({'router advertisement'}):['what type of message uses FF02::1 by routers to inform local devices of it\'s presence?'],
-    #dhcpv6,slaac,eui
-        ####modified eui exercise. (generate mac -> process into interface ID -> query user on the interface ID)
-        frozenset({'ipv6 address 2001:db8::/64 eui-64'}):['what interface command uses eui-64 to assign an address from the 2001:db8::/64 network?'],
-        frozenset({'A3C2:D3FF:FEB4:5B6D'}):['write the EUI-64 interface ID that will be created from this mac address: A1C2.D3B4.5B6D'], #rng the mac address and ask more than once ?
-        #note most of the 'global id'(network portion) of a ULA should be randomly generated, to reduce the chance of collisions when companies merge
-        frozenset({'SLAAC'}):['what feature learns the network/subnet ID and prefix length from RAs and then uses EUI-64 to generate & assign a full ipv6 address?'],
-        frozenset({'ipv6 address autoconfig'}):['what interface command uses SLAAC to assign an address?'],
-        frozenset({'DAD'}):['upon an interface coming online or being assigned an address, what feature automatically sends an NS with that address to verify it\'s uniqueness?'],
-    #subnetting - questions about /48 block assignment into /64 subnets (16 bit subnet portion)
-    #global routing prefix, subnet id (aka subnet prefix), interface ID - may or maynot include these.
-    frozenset({'16'}):['how many bits in each 4 digit group of an ipv6 address?'],
-    frozenset({'4'}):['how many bits is a single digit in ipv6?'],
-    frozenset({'ipv6 unicast-routing'}):['what command enables ipv6 routing?'],
-    frozenset({'fully specified'}):['what kind of static route must be used when using link local addr as a nexthop?'],
-    #commands: (e.g. show commands, & enabling ipv6 routing etc)
-},
+        #hex conversion, shortening/expanding addresses, subnetting (what about it though?)
+        #solicited node address generation https://youtu.be/rwkHfsWQwy8?si=vb7WdkVrUlU6ndP-&t=594 
+        #address ranges
+        #https://www.youtube.com/watch?v=hJ7Mc3LLWXI
+        frozenset({'solicited node multicast'}):['what kind of address is used to request/discover a mac address associated with an ipv6 address?'],
+        frozenset({'unique local'}):['what kind of address starts with numbers in the range of FC-FD?', 'what is the ipv6 name for private addresses?'],  
+        frozenset({'FD'}):['due to some odd rules, what should the first 2 characters of ULA addresses be *in practice*'],  
+        frozenset({'link local'}):['which kind of address starts with FE80?'], 
+        frozenset({'multicast'}):['which kind of ipv6 address begins with FF'],
+        frozenset({'loop back'}):['what kind of address is ::1'],
+        frozenset({'interface-local'}):['what is the scope of FF01 addresses?'],
+        frozenset({'link-local'}):['what is the scope of FF02 addresses?'],
+        frozenset({'ipv6 address fe80::69 link-local'}):['what command configures a specific link local address: fe80::69'],
+        
+        frozenset({'FF02::1:ffb4:5b6d'}):['what solicited node multicast address will be created if an interface has this address 2001:db8::a1c2:d3b4:5b6d/64'],
+        frozenset({'MDN snooping'}):['what do switches need to have enabled to prevent multicast\'s from be flooded out every port?'],
+        frozenset({'FF02::1:FF'}):['what part of solicited multicast addresses is the same in every one?'],
+        frozenset({'ipv6 enable'}):['what command automatically generates/assigns a link local address on an interface?'],
+        #FF02::1:FFxx:xxxx
+        frozenset({'FF02::1'}):['what is the \'all nodes\' ipv6 multicast address?'],
+        frozenset({'FF02::2'}):['what is the \'all routers\' ipv6 multicast address?'],
+        frozenset({'FF02::5'}):['what is the all OSPF routers ipv6 multicast address?'],
+        frozenset({'FF02::6'}):['what is the all OSPF BRs/BDRs ipv6 multicast address?'],
+        frozenset({'site-local'}):['what is the scope of FF05 addresses?'],
+        frozenset({'organization-local'}):['what is the scope of FF08 addresses?'],
+        frozenset({'global'}):['what is the scope of FF0E addresses?'],
+        frozenset({'global unicast'}):['what kind of ipv6 address starts with 2 or 3 and is in the range of 2000::/3?', 'what is the ipv6 name for public addresses?'],
+        frozenset({'anycast'}):['what kind of ipv6 address is one-to-nearest?'],
+        frozenset({'::/0'}):['what ipv6 address is used in default routes in place of 0.0.0.0?'],
+        #ndp
+        frozenset({'ndp'}):['what is used in place of arp for IPv6?'],
+        frozenset({'neighbor solicitation'}):['what is the ipv6 equivalent of an arp request? (to learn mac:ip map)'],
+        frozenset({'neighbor advertisement'}):['what is the ipv6 equivalent of an arp reply? (to provide mac:ip map)'],
+        frozenset({'show ipv6 neighbor'}):["what command shows ipv6 to mac mappings"],
+        frozenset({'router solicitation'}):['what type of message uses FF02::2 to discover local routers?'],
+        frozenset({'router advertisement'}):['what type of message uses FF02::1 by routers to inform local devices of it\'s presence?'],
+        #dhcpv6,slaac,eui
+            ####modified eui exercise. (generate mac -> process into interface ID -> query user on the interface ID)
+            frozenset({'ipv6 address 2001:db8::/64 eui-64'}):['what interface command uses eui-64 to assign an address from the 2001:db8::/64 network?'],
+            frozenset({'A3C2:D3FF:FEB4:5B6D'}):['write the EUI-64 interface ID that will be created from this mac address: A1C2.D3B4.5B6D'], #rng the mac address and ask more than once ?
+            #note most of the 'global id'(network portion) of a ULA should be randomly generated, to reduce the chance of collisions when companies merge
+            frozenset({'SLAAC'}):['what feature learns the network/subnet ID and prefix length from RAs and then uses EUI-64 to generate & assign a full ipv6 address?'],
+            frozenset({'ipv6 address autoconfig'}):['what interface command uses SLAAC to assign an address?'],
+            frozenset({'DAD'}):['upon an interface coming online or being assigned an address, what feature automatically sends an NS with that address to verify it\'s uniqueness?'],
+        #subnetting - questions about /48 block assignment into /64 subnets (16 bit subnet portion)
+        #global routing prefix, subnet id (aka subnet prefix), interface ID - may or maynot include these.
+        frozenset({'16'}):['how many bits in each 4 digit group of an ipv6 address?'],
+        frozenset({'4'}):['how many bits is a single digit in ipv6?'],
+        frozenset({'ipv6 unicast-routing'}):['what command enables ipv6 routing?'],
+        frozenset({'fully specified'}):['what kind of static route must be used when using link local addr as a nexthop?'],
+        #commands: (e.g. show commands, & enabling ipv6 routing etc)
+    },
     'IPv4_multicast':{
-    #224.0.0.2:HSRPv1
-    frozenset({'224.0.0.10'}):['EIGRP'],
-    frozenset({'224.0.0.102'}):['HSRP','GBLP'],
-    frozenset({'224.0.0.18'}):['VRRP'],
-    frozenset({'224.0.0.5'}):['all ospf (for sending hellos)'],
-    frozenset({'224.0.0.6'}):['all ospf DR/BDR'],
-    frozenset({'224.0.0.9'}):['RIP'],
-},
+        #224.0.0.2:HSRPv1
+        frozenset({'224.0.0.10'}):['EIGRP'],
+        frozenset({'224.0.0.102'}):['HSRP','GBLP'],
+        frozenset({'224.0.0.18'}):['VRRP'],
+        frozenset({'224.0.0.5'}):['all ospf (for sending hellos)'],
+        frozenset({'224.0.0.6'}):['all ospf DR/BDR'],
+        frozenset({'224.0.0.9'}):['RIP'],
+    },
     'fhrp':{ 
         #https://blog.boson.com/bid/106020/first-hop-redundancy-protocol-fhrp
         #not covered:
         #hold/hello timers
-        #specific multicast macaddresses
         frozenset({'no'}):['do GLBP & HSRP devices pre-empt by default? (yes/no)'],
         frozenset({'gratuitous ARP'}):['upon a FHRP device taking over, how does it update switch mac tables to direct frames to the new location of the virtual mac?'],
         frozenset({'object tracking'}):['what FHRP feature tracks states of things, e.g., routing table, interface state, etc to conditionally allow another router to take over? (by lowering its priority)'],
@@ -810,69 +730,68 @@ questions_dict = {
         ],
         frozenset({'AVG'}):['What GLBP role leverages ARP to direct hosts to different AVFs?'],#i think in a round-robin fashion by defualt.
         frozenset({'AVF'}):['What GLBP role sends traffic, while also being a backup to the other role?']
-},
+    },
 
     'nat':{
-    frozenset({'inside local'}):['in NAT terms, what kind of address is a host\'s private IP?'],
-    frozenset({'inside global'}):['in NAT terms, what kind of address sits on the outside of a private network and represents the host(s) from the inside?'],
-    frozenset({'outside global'}):['in NAT terms, what kind of address sits on the outside of a remote private network network?'],
-    frozenset({'outside local'}):['in NAT terms, what kind of address sits on the inside of a remote private network??'],
-    frozenset({'ip nat outside'}):['what interface command sets that interface as part of the outside network?'],
-    frozenset({'ip nat inside source static 192.168.0.167 100.0.0.1'}):['what command configures a static (one to one) inside translation between 192.168.0.167 to 100.0.0.1 ?'],
-    frozenset({'show ip nat translations'}):['what command shows active NAT translations with a table?'],
-    frozenset({'show ip nat statistics'}):['what command shows NAT statistics?'],
-    #note some devices accept 'prefix-length 24' instead of 'netmask'
-    frozenset({'ip nat pool poolname 100.1.1.0 100.1.1.255 netmask 255.255.255.0'}):['what command creates a pool \'poolname\' that includes all of 100.1.1.0/24 '],
-    frozenset({'ip nat inside source list 1 pool poolname'}):['what command implements dynamic NAT using pool \'poolname\' and access-list 1?'],
-    frozenset({'ip nat inside source list 1 pool poolname overload'}):['what command implements dynamic PAT using pool \'poolname\' and access-list 1?'],
-    frozenset({'ip nat inside source list 1 interface g0/0 overload'}):['what command implements interface PAT using g0/0 and access-list 1?'],
-    #command like this doesn't work: ip nat inside source static 192.168.0.168 100.0.0.1 overload
-},
+        frozenset({'inside local'}):['in NAT terms, what kind of address is a host\'s private IP?'],
+        frozenset({'inside global'}):['in NAT terms, what kind of address sits on the outside of a private network and represents the host(s) from the inside?'],
+        frozenset({'outside global'}):['in NAT terms, what kind of address sits on the outside of a remote private network network?'],
+        frozenset({'outside local'}):['in NAT terms, what kind of address sits on the inside of a remote private network??'],
+        frozenset({'ip nat outside'}):['what interface command sets that interface as part of the outside network?'],
+        frozenset({'ip nat inside source static 192.168.0.167 100.0.0.1'}):['what command configures a static (one to one) inside translation between 192.168.0.167 to 100.0.0.1 ?'],
+        frozenset({'show ip nat translations'}):['what command shows active NAT translations with a table?'],
+        frozenset({'show ip nat statistics'}):['what command shows NAT statistics?'],
+        #note some devices accept 'prefix-length 24' instead of 'netmask'
+        frozenset({'ip nat pool poolname 100.1.1.0 100.1.1.255 netmask 255.255.255.0'}):['what command creates a pool \'poolname\' that includes all of 100.1.1.0/24 '],
+        frozenset({'ip nat inside source list 1 pool poolname'}):['what command implements dynamic NAT using pool \'poolname\' and access-list 1?'],
+        frozenset({'ip nat inside source list 1 pool poolname overload'}):['what command implements dynamic PAT using pool \'poolname\' and access-list 1?'],
+        frozenset({'ip nat inside source list 1 interface g0/0 overload'}):['what command implements interface PAT using g0/0 and access-list 1?'],
+        #command like this doesn't work: ip nat inside source static 192.168.0.168 100.0.0.1 overload
+    },
     'ntp':{
-    frozenset({'ntp master 8'}):['what command sets the device as an NTP server, with the stratum level 8'],
-    frozenset({'ntp server 1.2.3.4'}):['what command sets the device as an NTP client of the ip 1.2.3.4'],
-    frozenset({'show clock'}):['what command shows the current time?'],
-    frozenset({'show ntp status'}):['what command shows whether the clock is syncronized, device\'s stratum, and ip of the ntp device being referenced?'],
-    frozenset({'show ntp associations'}):['what command shows the information of the ntp servers being referenced?'],
-    frozenset({'*'}):['in output from \'show ntp associations\', what symbol is used to show which IP the device is synced with?'],
-    frozenset({'address'}):['what column of \'show ntp associations\' shows the ip address of the ntp server?'],
-    frozenset({'ref clock'}):['what column of \'show ntp associations\' shows the ip address that the ntp server is a client of? (the server to the server.)'],
-    frozenset({'.locl.'}):['if a device is master and \'show ntp associations\' has been entered, what is seen in the ref column?'],
-    frozenset({'127'}):['what is the first octet of the address that shows up in the ref clock column when \'show ntp associations\' is entered on a client device of an NTP master?'],
-    frozenset({'ntp source lo0'}):['what command sets loopback lo0\'s address as the ntp server address?'],
-    #apparently theres an alternative 'calendar set' command that sets the 'hardware clock' as opposed to the 'software clock' ??? no idea what this means as OCG didnt mention it
-    #also 'clock update-calendar' syncs the calendar to the clock time. 'clock read calendar' syncs the clock to the calendar time.
-    frozenset({'clock set 12:32:00 19 January 2023'}):['what command sets the device\'s utc-0 time to 12:32:00 19 january 2023?'],
-    frozenset({'clock timezone EST -5'}):['what command offsets the learned or set utc-0 time by -5 and gives a human readable timezone note \'EST\'?'],
-    frozenset({'clock summer-time EST recurring'}):['what command configures the start and end of daylight saving time. use EST as the human readable timezone.'], 
-    #note ^the answer here is the command the ocg gave and didnt explain anything about its default behavior, so its not clear what this command does when not specifying the start/end of daylight saving, which can be specified as args.
-    #e.g. 'clock summer-time EDT recurring 2 sunday march 02:00 1 sunday november 02:00'
-    frozenset({'15'}):['what is the maximum stratum?'],
-    frozenset({'symmetric active mode'}):['what ntp mode peers with devices on the same stratum for better accuracy?'],
-    frozenset({'ntp peer 1.2.3.4'}):['what command leverages symmetric active mode by peering with a device (IP: 1.2.3.4) of the same stratum?'],
-    frozenset({'primary server'}):['what is the name of stratum 1 devices that get their time from reference clocks (stratum 0 devices)?']
-    #NTP authentication: i'm guessing this isnt on the exam.
-},
+        frozenset({'ntp master 8'}):['what command sets the device as an NTP server, with the stratum level 8'],
+        frozenset({'ntp server 1.2.3.4'}):['what command sets the device as an NTP client of the ip 1.2.3.4'],
+        frozenset({'show clock'}):['what command shows the current time?'],
+        frozenset({'show ntp status'}):['what command shows whether the clock is syncronized, device\'s stratum, and ip of the ntp device being referenced?'],
+        frozenset({'show ntp associations'}):['what command shows the information of the ntp servers being referenced?'],
+        frozenset({'*'}):['in output from \'show ntp associations\', what symbol is used to show which IP the device is synced with?'],
+        frozenset({'address'}):['what column of \'show ntp associations\' shows the ip address of the ntp server?'],
+        frozenset({'ref clock'}):['what column of \'show ntp associations\' shows the ip address that the ntp server is a client of? (the server to the server.)'],
+        frozenset({'.locl.'}):['if a device is master and \'show ntp associations\' has been entered, what is seen in the ref column?'],
+        frozenset({'127'}):['what is the first octet of the address that shows up in the ref clock column when \'show ntp associations\' is entered on a client device of an NTP master?'],
+        frozenset({'ntp source lo0'}):['what command sets loopback lo0\'s address as the ntp server address?'],
+        #apparently theres an alternative 'calendar set' command that sets the 'hardware clock' as opposed to the 'software clock' - OCG didnt mention
+        #also 'clock update-calendar' syncs the calendar to the clock time. 'clock read calendar' syncs the clock to the calendar time.
+        frozenset({'clock set 12:32:00 19 January 2023'}):['what command sets the device\'s utc-0 time to 12:32:00 19 january 2023?'],
+        frozenset({'clock timezone EST -5'}):['what command offsets the learned or set utc-0 time by -5 and gives a human readable timezone note \'EST\'?'],
+        frozenset({'clock summer-time EST recurring'}):['what command configures the start and end of daylight saving time. use EST as the human readable timezone.'], 
+        #note ^the answer here is the command the ocg gave and didnt explain anything about its default behavior, so need to look into what this command does when not specifying the start/end of daylight saving, which can be specified as args.
+        #e.g. 'clock summer-time EDT recurring 2 sunday march 02:00 1 sunday november 02:00'
+        frozenset({'15'}):['what is the maximum stratum?'],
+        frozenset({'symmetric active mode'}):['what ntp mode peers with devices on the same stratum for better accuracy?'],
+        frozenset({'ntp peer 1.2.3.4'}):['what command leverages symmetric active mode by peering with a device (IP: 1.2.3.4) of the same stratum?'],
+        frozenset({'primary server'}):['what is the name of stratum 1 devices that get their time from reference clocks (stratum 0 devices)?']
+        #NTP authentication
+    },
     'cdp_lldp':{
-    frozenset({'60'}):['by default how often are cdp messages sent? (seconds) - the \'timer\' value'],
-    frozenset({'180'}):['by default how long does cdp wait before removing a neighbor from the cdp table? (seconds) - the \'holdtime\' value'],
-    frozenset({'show cdp'}):['what command shows the cdp \'global\' timer and holdtime?'],
-    frozenset({'show cdp interface'}):['what command shows the cdp timer & holdtime for each interface?'],
-    frozenset({'show cdp traffic'}):['what command shows cdp stats'],
-    frozenset({'show cdp neighbor detail'}):['what cdp command shows extra detail about neighbors'],
-    frozenset({'no cdp run'}):['what command disables cdp globally?'],
-    frozenset({'cdp enable'}):['what command enables CDP on a specific interface?'],
-    frozenset({'cdp timer 59'}):['what command sets cdp timer to 59 seconds?'],
-    frozenset({'cdp holdtime 179'}):['what command sets cdp holdtime to 179 seconds?'],
-    frozenset({'30'}):['by default how often are LLDP messages sent? (seconds) - the \'timer\' value'],
-    frozenset({'120'}):['by default how long does LLDP wait before removing a neighbor from the LLDP table? (seconds) - the \'holdtime\' value'],
-    frozenset({'lldp run'}):['what command enables lldp globally?'],
-    frozenset({'show lldp interface'}):['what command shows tx/rx configuration of each interface?'],
-    #this enables transmission/reception on all interfaces according to PT behavior, which is contrary to jeremyITlab statements
-    frozenset({'no lldp transmit'}):['what command disables sending lldp on a specific interface?'],
-    #lldp, timer, holdtime, & show commands are the same
-    #R,S are used for router and switch for CDP. LLDP uses R,B(ridge)
-},
+        frozenset({'60'}):['by default how often are cdp messages sent? (seconds) - the \'timer\' value'],
+        frozenset({'180'}):['by default how long does cdp wait before removing a neighbor from the cdp table? (seconds) - the \'holdtime\' value'],
+        frozenset({'show cdp'}):['what command shows the cdp \'global\' timer and holdtime?'],
+        frozenset({'show cdp interface'}):['what command shows the cdp timer & holdtime for each interface?'],
+        frozenset({'show cdp traffic'}):['what command shows cdp stats'],
+        frozenset({'show cdp neighbor detail'}):['what cdp command shows extra detail about neighbors'],
+        frozenset({'no cdp run'}):['what command disables cdp globally?'],
+        frozenset({'cdp enable'}):['what command enables CDP on a specific interface?'],
+        frozenset({'cdp timer 59'}):['what command sets cdp timer to 59 seconds?'],
+        frozenset({'cdp holdtime 179'}):['what command sets cdp holdtime to 179 seconds?'],
+        frozenset({'30'}):['by default how often are LLDP messages sent? (seconds) - the \'timer\' value'],
+        frozenset({'120'}):['by default how long does LLDP wait before removing a neighbor from the LLDP table? (seconds) - the \'holdtime\' value'],
+        frozenset({'lldp run'}):['what command enables lldp globally?'],
+        frozenset({'show lldp interface'}):['what command shows tx/rx configuration of each interface?'],
+        frozenset({'no lldp transmit'}):['what command disables sending lldp on a specific interface?'],
+        #lldp, timer, holdtime, & show commands are mostly the same
+        #R,S are used for router and switch for CDP. LLDP uses R,B(ridge)
+    },
     'dhcp':{
         #show lease, show binding table
         frozenset({'ip dhcp pool poolname'}):['what command enters dhcp config mode for a pool named \'poolname\'?'],
@@ -884,8 +803,8 @@ questions_dict = {
         frozenset({'domain-name example.com'}):['what pool command tells clients the domain they\'re apart of is example.com?'], 
         # tells the client the domain name it is apart of e.g., example.com 
         # https://youtu.be/hzkleGAC2_Y?si=r3lK_KMUX2uPfs7l&t=1428 #https://info.support.huawei.com/hedex/api/pages/EDOC1100334321/AEM1020X/05/resources/dc/dhcp_server_domain-name.html
-        # apparently the field is called dhcp option 15
-},
+        # field is called dhcp option 15
+    },
     'aireos':{
         frozenset({'advanced'}):['upon logging into a aireos WLC, what should be clicked on first in order to configure the device?'],
         frozenset({'interface'}):['what is configured first?'],
@@ -908,7 +827,8 @@ questions_dict = {
     #   frozenset({'show mac address-table static'}):[''],
         frozenset({'show mac address-table secure'}):['what commands will show table of learned addresses of port-security enabled ports?'],
         frozenset({'show mac address-table static'}):['what commands will show table of sticky-learned addresses?'],
-        #after port-security is enabled, learned addresses learned AFTER will still show up in basic 'show mac ad' command, but NOT with the 'dynamic' arg/keyword
+        #after port-security is enabled, addresses learned AFTER will still show up in basic 'show mac ad' command, but NOT with the 'dynamic' arg/keyword
+        #can't remember nuances of this^ need to go back and check it
         frozenset({'stateless'}):['what kind of dhcp is used in combination with SLAAC to provide dhcp \'option\' information? e.g., dns server address'],
         frozenset({'discover', 'offer', 'request', 'acknowledge'}):['what are the types of messages sent between a DHCP server and it\'s client?'],
         frozenset({'solicit','advertise','request','reply'}):['what are the types of messages sent between a DHCPv6 server and it\'s client?'],
