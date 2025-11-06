@@ -18,7 +18,7 @@ Successfully creating a byte that matches with the presented decimal number will
 <img src="https://github.com/NickMakeThing/Networking-Practice-Tools/blob/main/demo/subnet.gif?raw=true" alt="subnet.gif" width="800">
 Built with JavaScript, CSS, and HTML.<br />
 Runs in a typical web browser.<br />
-Calculate and enter the correct IP addresses, address count, and subnet count.<br /> 
+Calculate and enter the correct IP addresses, host address count, and subnet count.<br /> 
 Successfully entering the correct information will clear the screen and present a new challenge.<br />
 Switching between the CIDR and Classful options requires a refresh.
 
