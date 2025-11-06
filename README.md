@@ -24,7 +24,7 @@ Switching between the CIDR and Classful options requires a refresh.
 
 ## CCNA Quiz
 <img src="https://github.com/NickMakeThing/Networking-Practice-Tools/blob/main/demo/quiz.png?raw=true" alt="quiz.png" width="800">
-Built with python (3.13.1)<br />
+Built with Python (3.13.1)<br />
 On running, the user will be asked questions from a specific topic.<br />
 Questions will be randomly selected until all questions from that topic have been asked, and then the user will be asked questions from another topic.<br />
 Numbers on the left of the question tell us how many questions have been asked (x), and how many questions are left in the current topic (y) in q(x/y).<br />
