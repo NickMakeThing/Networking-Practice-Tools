@@ -36,7 +36,7 @@ Questions that have been answered incorrectly 3 times in a row will be saved to 
 - `whole_quiz()` asks every question from every topic
 
 #### Quiz Files
-- quiz.py - Contains the main logic.
+- quiz.py - contains the main logic.
 - ccna_questions.py - contains a dict of ~550 questions and their answers.
 - wrong.json - this file will be created on running the script. 
 
