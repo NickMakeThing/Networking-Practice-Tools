@@ -2,7 +2,7 @@
 This repository contains 3 tools for revising and practicing networking concepts.
 
 - **binary parctice.html** - interactive/graphical tool for practicing binary-decimal conversion 
-- **subnet analysis practice.html** - webpage for practicing subnetting 
+- **subnet analysis practice.html** - web page for practicing subnetting 
 - **quiz.py** - a CLI-based quiz with ~550 questions that cover topics from the CCNA exam outline
 
 Scroll down for more details.
