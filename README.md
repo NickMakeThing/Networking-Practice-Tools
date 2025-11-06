@@ -5,6 +5,8 @@ This repository contains 3 tools for revising and practicing networking concepts
 - **subnet analysis practice.html** - webpage for practicing subnetting 
 - **quiz.py** - a CLI-based quiz with ~550 questions that cover topics from the CCNA exam outline
 
+Scroll down to see examples of each.
+
 ## Binary Practice Tool
 <img src="https://github.com/NickMakeThing/Networking-Practice-Tools/blob/main/demo/binary.gif?raw=true" alt="binary.gif" width="800">
 
