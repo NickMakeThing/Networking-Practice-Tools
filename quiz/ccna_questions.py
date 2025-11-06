@@ -1,62 +1,51 @@
 #format is:   category = {answer: questions}
-#should also print what category the question is from when asking - by printing the dict variable's name
-#take dict key, make lowercase, get rid of spaces, and get rid of hyphen
-#make user's answers lowercase, take out spaces, and get rid of hyphen before checking
-#count right/wrong answers. put all wrong answers and their questions into a single dict that can be printed out at the end
-#the user will be able to take that dict and quiz on those questions specifically afterward.
 
-
-#wtf is a recursive static route? answer: https://youtu.be/rwkHfsWQwy8?si=WpbnCebGB2UVEIEJ&t=1645
-#made the mistake of making a question that takes two answers at the same time. 
-#i think it was the 'console buffer' one in syslog. i need to go back and fix it
-#woah crazy trivia: cisco exports 'NPE'(no payload encryption) versions of IOS to countries that have restrictions on encryption technology.
-#wait 'logging synchronous' is configured on console line and not as a (config)# command?
-
-#missing: 802.11 frame types "Which 802.11 frame type is Association Response?"
-#spine leaf architecture - btw how tf is it more scalable?
-#tcp header
-#wlc interfaces
-#wildcard practice
-#mac addresses
-#can we configure portchannel int as trunk/access, etc while it's down? #look up port channel configuration best practice
-#should experiment with making etherchannels, especially l3 ones. e.g., only configuring 'noswitchport' on the portchannel afterwards.
-#commands:
-    #dhcp show commands. show lease, show dhcp binding table
-    #which cdp/lldp commands show OS, build model, serial number etc, or w/e
-    #note: ocg and pt have inconsistency: show mac address-table VS show mac-address-table
-    #what password encryption type does service password encryption make the plain text passwords?: 7 (vignere)
-    #what password encryption type does enable secret make the entered password? 5 i think (md5)
-    #what does enable secret 5 sdlgsdofsdkfj do
-    #what is the number $1$ in this type of password form do (md5) 
-    #effects of different types of ospf mismatches.
 questions_dict = {
-    'missed':{ #things i forgot to put in other sections
-        frozenset({'show ip arp'}):['what command shows the arp-cache of a cisco device?'],
-        frozenset({'show interfaces f0/1 switchport'}):['what command shows a large amount of information about f0/1? operational/admin\' trunking mode, access vlan, voice vlan, etc'],
-        frozenset({'show mac address-table'}):['what command shows a switch\'s CAM table?'],
-        frozenset({'show mac address-table dynamic'}):['what command will no longer list mac-addresses learned on port-security configured port?'],
-    #   frozenset({'show mac address-table aging-time'}):[''],
-    #   frozenset({'show mac address-table count'}):[''],
-    #   frozenset({'show mac address-table static'}):[''],
-        frozenset({'show mac address-table secure'}):['what commands will show table of learned addresses of port-security enabled ports?'],
-        frozenset({'show mac address-table static'}):['what commands will show table of sticky-learned addresses?'],
-        #after port-security is enabled, learned addresses learned AFTER will still show up in basic 'show mac ad' command, but NOT with the 'dynamic' arg/keyword
-        frozenset({'stateless'}):['what kind of dhcp is used in combination with SLAAC to provide dhcp \'option\' information? e.g., dns server address'],
-        frozenset({'discover', 'offer', 'request', 'acknowledge'}):['what are the types of messages sent between a DHCP server and it\'s client?'],
-        frozenset({'solicit','advertise','request','reply'}):['what are the types of messages sent between a DHCPv6 server and it\'s client?'],
-        frozenset({'router advertisement'}):['how do both stateless & stateful DHCPv6 clients learn their prefix length and default gw ip?']
-    },
-    'aireos':{
-        frozenset({'advanced'}):['upon logging into a aireos WLC, what should be clicked on first in order to configure the device?'],
-        frozenset({'interface'}):['what is configured first?'],
-        frozenset({'controller','interface'}):['what things to click to begin configuring interface? separate two answers with comma'],
-        frozenset({'name','vlan'}):['what first two things to configure on interface? separate with comma' ],
-        frozenset({'ip address','gw address','dhcp address'}):['what other (after the first two) things to configure on interface'],
-        frozenset({'WLAN'}):['what to configure after interface?'],
-        frozenset({'profile name','ssid','wlan id'}):['what are first things to configure on wlan'],
-        frozenset({'enable','radio policy','interface'}):['what is configured in the general tab'],
-        frozenset({'wpa2','psk','aes'}):['what is configured in the security tab'],
-        frozenset({'max clients','session timeout'}):['what is configured in the advanced tab'],
+    'ACLs':{
+        frozenset({'1-99','1300-1999'}):['what ranges are standard ACLs? separate ranges with a comma'],
+        frozenset({'100-199','2000-2699'}):['what ranges are extended ACLs? separate ranges with a comma'],
+        #configuration
+        frozenset({'deny any'}):['what is implicitly at the end of every acl?'],
+        frozenset({'permit any'}):['what can be put at the end of an ACL to turn it from a whitelist into a blacklist?'],
+        # {'remark'}:['in place of \'permit\' or \'deny\', what key word can be used to leave a comment in an ACL?'],
+        frozenset({'access-list 1 permit 0.0.0.0 255.255.255.255'}):['what is a longer way of writing out a \'permit any\' ACE as part of standard ACL 1?'],
+        frozenset({'access-list 1 deny 1.2.96.0 0.0.7.255'}):['write a standard ACE for ACL 1 to deny packets from 1.2.96.0/21'],
+        frozenset({'ip access-list standard dogfood'}):['what command enters ACL config mode for a standard ACL named dogfood?'],
+        #intervals change on reload but maintain order of ACEs. 
+        #theres also a 'resequence' command that replaces the current intervals of an ACL
+        frozenset({'5 permit any'}):['what command in standard named ACL mode adds a \'permit any\' ACE with seq number 5?'],
+        frozenset({'permit host 1.2.3.4'}):['what command in standard named ACL mode adds an ACE at the end of the ACL that allows anything from 1.2.3.4?'],
+        frozenset({'access-class 5 in'}):['what command applies ACL 5 to vty clients in \'line vty\' mode?'],
+        frozenset({'ip access-group 5 in'}):['what interface command applies ACL 5 to incoming traffic?'],
+        frozenset({'10'}):['what is the default interval of each sequence number, if the seq number isn\'t explicitly entered?'],
+        frozenset({'no 30'}):['in named ACL mode, what command deletes an ACE that has seq number 30?'],
+        frozenset({'deny icmp any any'}):['in extended named ACL mode, write an ACE that denies all ping packets'],
+        frozenset({'access-list 104 deny ip host 192.168.1.69 172.168.3.64 0.0.0.63'}):['write an ACE that denies traffic from 192.168.1.69 to 172.168.3.64/26 for numbered ACL 104. \ndon\'t use a wc for the source address.'],
+        #tcp/udp gt,lt,list,range,eq & src port, dst ports
+        frozenset({'permit tcp host 1.2.3.4 eq 69 host 69.69.69.69 range 80 100'}):['in extended named ACL mode, write an ACE that permits traffic from tcp port 69 of 1.2.3.4 to all ports 80 to 100 of 69.69.69.69. \ndon\'t use wc masks.'],
+        frozenset({'deny udp 192.168.1.0 0.0.0.255 172.168.1.0 0.0.0.127 lt 80'}):['in extended named ACL mode, write an ACE that denies traffic from 192.168.1.0/24 to udp ports less than 80 of 172.168.1.0/25'],
+        frozenset({'access-list 104 permit tcp 1.2.3.4 0.0.0.0 gt 69 any'}):['write an ACE that permits traffic from tcp ports above 69 of 1.2.3.4 to any IP address as part of a numbered ACL 104. \nuse a wc for the source address.'],
+        #/32 ACEs
+        frozenset({'host'}):['what key word can precede an IP address in an ACE to match it as a /32 address?'],
+        frozenset({'0.0.0.0'}):['what wildcard mask can be used to match a /32 address?'],
+        frozenset({'ACL'}):['a numbered ACL has ace:\'access-list 1 deny 192.168.1.1\' what would entering this as a command with \'no\' prepended to it do? delete the ACE or entire ACL? \nanswer with either: ACE or ACL'],
+        frozenset({'32'}):['what prefix length will the device think an address in a standard ACL is if it\'s wc mask is left out?'],
+        #types
+        frozenset({'standard'}):[
+            'what type of ACL is typically used for VTY lines?',
+            'what type of ACL is placed closest to a packet\'s destination?',
+            ],
+        frozenset({'extended'}):[
+            'what type of ACL is placed closest to a packet\'s source?',
+            ],
+        #the ACEs/seq will be displayed out of order with this command, but you the displayed seq number help understand their order 
+        frozenset({'show access-lists'}):['what command shows information about each ACL, It\'s type, and each ACE/seq number? '],
+        #notable cases, e.g., allowing ospf, dhcp and ip helper
+        frozenset({'generated'}):['what kind of packets are not filtered by outbound ACLs?'],
+        # frozenset({'inbound'}):['which way should an ACL be placed to allow OSPF to operate'], #what did i mean by this
+        frozenset({'permit ospf any any'}):['write a named-acl ACE that allows for OSPF to operate'],
+        frozenset({'68/67'}):['what is the src/dst port of a dhcp request coming from a dhcp client to a relay agent/gateway? give numbers in this form: src/dst'],
+        frozenset({'67/67'}):['what is the src/dst port of a dhcp request coming from a dhcp relay to a dhcp server? give numbers in this form: src/dst'],
     },
     'low_layer':{
         frozenset({'show interfaces status'}):['command that shows each port\'s duplex, speed(s), access vlan, L1 connection status'], #doesnt work in PT
@@ -427,7 +416,7 @@ questions_dict = {
         frozenset({'show access-lists'}):['what command shows information about each ACL, It\'s type, and each ACE/seq number? '],
         #notable cases, e.g., allowing ospf, dhcp and ip helper
         frozenset({'generated'}):['what kind of packets are not filtered by outbound ACLs?'],
-        # frozenset({'inbound'}):['which way should an ACL be placed to allow OSPF to operate'], #wtf did i mean by this
+        # frozenset({'inbound'}):['which way should an ACL be placed to allow OSPF to operate'], #what did i mean by this
         frozenset({'permit ospf any any'}):['write a named-acl ACE that allows for OSPF to operate'],
         frozenset({'68/67'}):['what is the src/dst port of a dhcp request coming from a dhcp client to a relay agent/gateway? give numbers in this form: src/dst'],
         frozenset({'67/67'}):['what is the src/dst port of a dhcp request coming from a dhcp relay to a dhcp server? give numbers in this form: src/dst'],
@@ -678,7 +667,6 @@ questions_dict = {
     frozenset({'option 43'}):['configuration on a dhcp server that tells access points the IP of their controller'],
 },
     'security':{
-        #password shit, ssh, etc
         #dhcp snooping 
         frozenset({'option 82'}):['what feature interferes with dhcp when the dhcp snooping switch isn\'t also a relay agent?'],
         frozenset({'no ip dhcp snooping information option'}):['what command stops dhcp snooping from inserting relay header?'],
@@ -894,23 +882,59 @@ questions_dict = {
         frozenset({'ip dhcp excluded-address 192.168.1.1 192.168.1.10'}):['what command excludes addresses 192.168.1.1 to .10 from being leased by dhcp?'],
         frozenset({'ip helper-address 69.69.69.69'}):['what command configures an interface to relay dhcp messages to a dhcp server:69.69.69.69'],
         frozenset({'domain-name example.com'}):['what pool command tells clients the domain they\'re apart of is example.com?'], 
-        # need to find out what 'domain-name [name]' actually does in ip pool config mode
         # tells the client the domain name it is apart of e.g., example.com 
         # https://youtu.be/hzkleGAC2_Y?si=r3lK_KMUX2uPfs7l&t=1428 #https://info.support.huawei.com/hedex/api/pages/EDOC1100334321/AEM1020X/05/resources/dc/dhcp_server_domain-name.html
-        # honestly no idea wtf this means 
         # apparently the field is called dhcp option 15
 },
-
-#doubt the cable stuff matters.
+    'aireos':{
+        frozenset({'advanced'}):['upon logging into a aireos WLC, what should be clicked on first in order to configure the device?'],
+        frozenset({'interface'}):['what is configured first?'],
+        frozenset({'controller','interface'}):['what things to click to begin configuring interface? separate two answers with comma'],
+        frozenset({'name','vlan'}):['what first two things to configure on interface? separate with comma' ],
+        frozenset({'ip address','gw address','dhcp address'}):['what other (after the first two) things to configure on interface'],
+        frozenset({'WLAN'}):['what to configure after interface?'],
+        frozenset({'profile name','ssid','wlan id'}):['what are first things to configure on wlan'],
+        frozenset({'enable','radio policy','interface'}):['what is configured in the general tab'],
+        frozenset({'wpa2','psk','aes'}):['what is configured in the security tab'],
+        frozenset({'max clients','session timeout'}):['what is configured in the advanced tab'],
+    },
+    'missed':{ #things i forgot to put in other sections
+        frozenset({'show ip arp'}):['what command shows the arp-cache of a cisco device?'],
+        frozenset({'show interfaces f0/1 switchport'}):['what command shows a large amount of information about f0/1? operational/admin\' trunking mode, access vlan, voice vlan, etc'],
+        frozenset({'show mac address-table'}):['what command shows a switch\'s CAM table?'],
+        frozenset({'show mac address-table dynamic'}):['what command will no longer list mac-addresses learned on port-security configured port?'],
+    #   frozenset({'show mac address-table aging-time'}):[''],
+    #   frozenset({'show mac address-table count'}):[''],
+    #   frozenset({'show mac address-table static'}):[''],
+        frozenset({'show mac address-table secure'}):['what commands will show table of learned addresses of port-security enabled ports?'],
+        frozenset({'show mac address-table static'}):['what commands will show table of sticky-learned addresses?'],
+        #after port-security is enabled, learned addresses learned AFTER will still show up in basic 'show mac ad' command, but NOT with the 'dynamic' arg/keyword
+        frozenset({'stateless'}):['what kind of dhcp is used in combination with SLAAC to provide dhcp \'option\' information? e.g., dns server address'],
+        frozenset({'discover', 'offer', 'request', 'acknowledge'}):['what are the types of messages sent between a DHCP server and it\'s client?'],
+        frozenset({'solicit','advertise','request','reply'}):['what are the types of messages sent between a DHCPv6 server and it\'s client?'],
+        frozenset({'router advertisement'}):['how do both stateless & stateful DHCPv6 clients learn their prefix length and default gw ip?']
+    },
 #took some screenshots of their code names etc. can be found in downloads folder
 # 'cables':{
 #         frozenset({''}):[''],
 #     }
 }#
 
+#woah crazy trivia: cisco exports 'NPE'(no payload encryption) versions of IOS to countries that have restrictions on encryption technology.
 
-
-# snmp = {#
-
-# }
-# wlc_interfaces = {}
+#missing: 802.11 frame types "Which 802.11 frame type is Association Response?"
+#tcp header
+#wlc interfaces
+#wildcard practice
+#mac addresses
+#port channel configuration best practice
+#roughly copy questions i need to add
+    #dhcp show commands. show lease, show dhcp binding table
+    #note: ocg and pt have inconsistency: show mac address-table VS show mac-address-table
+    #what password encryption type does service password encryption make the plain text passwords?: 7 (vignere)
+    #what password encryption type does enable secret make the entered password? 5 i think (md5)
+    #what does enable secret 5 sdlgsdofsdkfj do
+    #what is the number $1$ in this type of password form do (md5) 
+    #effects of different types of ospf mismatches.
+    #'logging synchronous' is configured in line and not as a (config)#
+    #which cdp/lldp commands show OS, build model, serial number etc, or w/e 
